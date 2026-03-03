@@ -25,15 +25,15 @@ public class PatientService {
     }
 
     public PatientRecord getRecord(int recordId) {
-        return recordRepository.findById(recordId);
+        return populatePassword(recordRepository.findById(recordId));
     }
 
     public List<PatientRecord> searchPatients(String query) {
-        return recordRepository.searchByName(query);
+        return populatePasswords(recordRepository.searchByName(query));
     }
 
     public List<PatientRecord> getAllPatients() {
-        return recordRepository.findAll();
+        return populatePasswords(recordRepository.findAll());
     }
 
     public boolean saveRecord(PatientRecord record) {
@@ -51,5 +51,20 @@ public class PatientService {
 
     public void deletePatient(int recordId) {
         recordRepository.deleteRecordAndUser(recordId);
+    }
+
+    private List<PatientRecord> populatePasswords(List<PatientRecord> records) {
+        for (PatientRecord record : records) {
+            populatePassword(record);
+        }
+        return records;
+    }
+
+    private PatientRecord populatePassword(PatientRecord record) {
+        if (record != null) {
+            String password = userRepository.getPlainPasswordForRecord(record.getRecordId());
+            record.setPassword(password != null ? password : "Unavailable");
+        }
+        return record;
     }
 }

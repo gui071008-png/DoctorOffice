@@ -41,6 +41,7 @@ public class UserRepository {
                 name,
                 email,
                 SecurityUtil.createStoredPassword(plainPassword),
+                plainPassword,
                 -1
         );
         databaseManager.putUser(patient);
@@ -73,13 +74,20 @@ public class UserRepository {
 
         User updated;
         if (existing instanceof Doctor) {
-            updated = new Doctor(existing.getUserId(), name, email, existing.getPasswordHash());
+            updated = new Doctor(existing.getUserId(), name, email, existing.getPasswordHash(), existing.getPlainPassword());
         } else {
             int patientRecordId = ((Patient) existing).getPatientRecordId();
             if (patientRecordId <= 0) {
                 patientRecordId = recordId;
             }
-            updated = new Patient(existing.getUserId(), name, email, existing.getPasswordHash(), patientRecordId);
+            updated = new Patient(
+                    existing.getUserId(),
+                    name,
+                    email,
+                    existing.getPasswordHash(),
+                    existing.getPlainPassword(),
+                    patientRecordId
+            );
         }
 
         databaseManager.putUser(updated);
@@ -89,7 +97,7 @@ public class UserRepository {
 
     private User copyUser(User user) {
         if (user instanceof Doctor) {
-            return new Doctor(user.getUserId(), user.getName(), user.getEmail(), user.getPasswordHash());
+            return new Doctor(user.getUserId(), user.getName(), user.getEmail(), user.getPasswordHash(), user.getPlainPassword());
         }
 
         Patient patient = (Patient) user;
@@ -97,6 +105,23 @@ public class UserRepository {
         if (recordId <= 0) {
             recordId = new PatientRecordRepository().getRecordIdByUserId(user.getUserId());
         }
-        return new Patient(user.getUserId(), user.getName(), user.getEmail(), user.getPasswordHash(), recordId);
+        return new Patient(
+                user.getUserId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPasswordHash(),
+                user.getPlainPassword(),
+                recordId
+        );
+    }
+
+    public String getPlainPasswordForRecord(int recordId) {
+        PatientRecord record = new PatientRecordRepository().findById(recordId);
+        if (record == null) {
+            return null;
+        }
+
+        User user = databaseManager.getUser(record.getUserId());
+        return user == null ? null : user.getPlainPassword();
     }
 }

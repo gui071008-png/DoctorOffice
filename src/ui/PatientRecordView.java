@@ -76,6 +76,8 @@ public class PatientRecordView {
         TextField firstNameField = styledField(record.getFirstName());
         TextField lastNameField = styledField(record.getLastName());
         TextField emailField = styledField(record.getEmail());
+        TextField passwordField = styledField(record.getPassword());
+        passwordField.setEditable(false);
         DatePicker dobPicker = new DatePicker(record.getDateOfBirth());
         dobPicker.setStyle(Theme.inputStyle());
         TextField heightField = styledField(String.valueOf(record.getHeight()));
@@ -131,7 +133,8 @@ public class PatientRecordView {
         form.getChildren().addAll(
                 title,
                 row("First Name", firstNameField), row("Last Name", lastNameField),
-                row("Email", emailField), row("Date of Birth", dobPicker),
+                row("Email", emailField), row("Password", passwordField),
+                row("Date of Birth", dobPicker),
                 row("Height (cm)", heightField), row("Weight (kg)", weightField),
                 row("Symptoms", symptomsArea),
                 statusLabel, saveBtn

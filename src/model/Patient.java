@@ -7,7 +7,11 @@ public class Patient extends User {
     private int patientRecordId;
 
     public Patient(int userId, String name, String email, String passwordHash, int patientRecordId) {
-        super(userId, name, email, passwordHash, "PATIENT");
+        this(userId, name, email, passwordHash, null, patientRecordId);
+    }
+
+    public Patient(int userId, String name, String email, String passwordHash, String plainPassword, int patientRecordId) {
+        super(userId, name, email, passwordHash, plainPassword, "PATIENT");
         this.patientRecordId = patientRecordId;
     }
 

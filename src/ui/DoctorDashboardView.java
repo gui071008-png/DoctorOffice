@@ -37,8 +37,16 @@ public class DoctorDashboardView {
 
     private void addLogoutButton(HBox header) {
         Button logout = new Button("Logout");
-        Theme.applySecondary(logout);
-        logout.setStyle(logout.getStyle() + "-fx-text-fill: white; -fx-border-color: white;");
+        logout.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 13px;" +
+                        "-fx-padding: 7 19 7 19;" +
+                        "-fx-background-radius: 6;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-radius: 6;" +
+                        "-fx-cursor: hand;"
+        );
         logout.setOnAction(e -> SceneManager.getInstance().showLogin());
         header.getChildren().add(logout);
     }

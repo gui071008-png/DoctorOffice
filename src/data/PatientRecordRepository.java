@@ -28,6 +28,7 @@ public class PatientRecordRepository {
                 lastName,
                 email,
                 null,
+                null,
                 0,
                 0,
                 "",
@@ -40,7 +41,14 @@ public class PatientRecordRepository {
 
         User user = databaseManager.getUser(userId);
         if (user instanceof Patient) {
-            Patient patient = new Patient(user.getUserId(), user.getName(), user.getEmail(), user.getPasswordHash(), recordId);
+            Patient patient = new Patient(
+                    user.getUserId(),
+                    user.getName(),
+                    user.getEmail(),
+                    user.getPasswordHash(),
+                    user.getPlainPassword(),
+                    recordId
+            );
             databaseManager.putUser(patient);
         }
 
@@ -143,6 +151,7 @@ public class PatientRecordRepository {
                 record.getFirstName(),
                 record.getLastName(),
                 record.getEmail(),
+                record.getPassword(),
                 record.getDateOfBirth(),
                 record.getHeight(),
                 record.getWeight(),

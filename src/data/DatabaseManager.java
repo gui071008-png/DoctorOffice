@@ -146,7 +146,8 @@ public class DatabaseManager {
                 nextUserId(),
                 "Dr. Andre",
                 "doctor",
-                SecurityUtil.createStoredPassword("doctor123")
+                SecurityUtil.createStoredPassword("doctor123"),
+                "doctor123"
         );
         putUser(doctor);
     }

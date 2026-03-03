@@ -1,22 +1,30 @@
 package ui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import model.Patient;
 import model.PatientRecord;
+import model.Prescription;
 import model.User;
 import service.FollowUpService;
 import service.PatientService;
+import service.PrescriptionService;
 import util.ValidationUtil;
+
+import java.time.LocalDate;
 
 public class PatientPortalView {
 
     private final User user;
     private final PatientService patientService = new PatientService();
     private final FollowUpService followUpService = new FollowUpService();
+    private final PrescriptionService prescriptionService = new PrescriptionService();
 
     public PatientPortalView(User user) {
         this.user = user;
@@ -60,8 +68,9 @@ public class PatientPortalView {
         Tab infoTab = new Tab("My Information", buildInfoTab(record));
         Tab editTab = new Tab("Edit Contact Info", buildEditTab(record));
         Tab appointmentTab = new Tab("Next Appointment", buildAppointmentTab(record));
+        Tab prescriptionHistoryTab = new Tab("Prescription History", buildPrescriptionHistoryTab(record));
 
-        tabs.getTabs().addAll(infoTab, editTab, appointmentTab);
+        tabs.getTabs().addAll(infoTab, editTab, appointmentTab, prescriptionHistoryTab);
         return tabs;
     }
 
@@ -171,6 +180,44 @@ public class PatientPortalView {
             noAppt.setStyle("-fx-font-size: 14px; -fx-text-fill: " + Theme.TEXT_MUTED + ";");
             content.getChildren().addAll(title, noAppt);
         }
+
+        ScrollPane scroll = new ScrollPane(content);
+        scroll.setFitToWidth(true);
+        scroll.setStyle("-fx-background-color: transparent;");
+        return scroll;
+    }
+
+    @SuppressWarnings("unchecked")
+    private ScrollPane buildPrescriptionHistoryTab(PatientRecord record) {
+        VBox content = new VBox(14);
+        content.setPadding(new Insets(24));
+
+        Label title = Theme.heading("My Prescription History");
+
+        ObservableList<Prescription> data = FXCollections.observableArrayList(
+                prescriptionService.getPrescriptionsForRecord(record.getRecordId())
+        );
+
+        TableView<Prescription> table = new TableView<Prescription>(data);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setPlaceholder(new Label("No prescriptions yet."));
+
+        TableColumn<Prescription, String> diagCol = new TableColumn<Prescription, String>("Diagnosis");
+        diagCol.setCellValueFactory(new PropertyValueFactory<Prescription, String>("diagnosis"));
+
+        TableColumn<Prescription, String> medCol = new TableColumn<Prescription, String>("Medication");
+        medCol.setCellValueFactory(new PropertyValueFactory<Prescription, String>("medication"));
+
+        TableColumn<Prescription, String> dosCol = new TableColumn<Prescription, String>("Dosage");
+        dosCol.setCellValueFactory(new PropertyValueFactory<Prescription, String>("dosage"));
+
+        TableColumn<Prescription, LocalDate> dateCol = new TableColumn<Prescription, LocalDate>("Date Issued");
+        dateCol.setCellValueFactory(new PropertyValueFactory<Prescription, LocalDate>("dateIssued"));
+
+        table.getColumns().addAll(diagCol, medCol, dosCol, dateCol);
+        VBox.setVgrow(table, Priority.ALWAYS);
+
+        content.getChildren().addAll(title, table);
 
         ScrollPane scroll = new ScrollPane(content);
         scroll.setFitToWidth(true);
