@@ -4,7 +4,7 @@ import data.DatabaseManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ui.SceneManager;
-// teste
+// teste teste
 public class Main extends Application {
 
     @Override
