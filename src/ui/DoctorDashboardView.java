@@ -32,7 +32,8 @@ public class DoctorDashboardView {
         scroll.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
         root.setCenter(scroll);
 
-        return new Scene(root);
+        return new Scene(root, 900, 650);
+
     }
 
     private void addLogoutButton(HBox header) {

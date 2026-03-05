@@ -42,7 +42,8 @@ public class PatientRecordView {
         TabPane tabs = buildTabs();
         root.setCenter(tabs);
 
-        return new Scene(root);
+        return new Scene(root, 900, 650);
+
     }
 
     private void addNavButtons(HBox header) {

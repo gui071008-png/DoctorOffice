@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import ui.SceneManager;
 
 // install SQLLite
-//
+// check how to apply changes in classes in data to stop using .ser to change to sqlite
 
 public class Main extends Application {
 

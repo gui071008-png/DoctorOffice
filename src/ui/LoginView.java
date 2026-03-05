@@ -25,7 +25,8 @@ public class LoginView {
         VBox card = buildLoginCard();
         root.setCenter(card);
 
-        return new Scene(root);
+        return new Scene(root, 900, 650);
+
     }
 
     private VBox buildLoginCard() {

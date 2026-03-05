@@ -45,20 +45,23 @@ public class PatientPortalView {
 
         if (!(user instanceof Patient)) {
             root.setCenter(new Label("Access error: not a patient account."));
-            return new Scene(root);
+            return new Scene(root, 900, 650);
+
         }
         Patient patient = (Patient) user;
 
         PatientRecord record = patientService.getRecord(patient.getPatientRecordId());
         if (record == null) {
             root.setCenter(new Label("No record found for your account."));
-            return new Scene(root);
+            return new Scene(root, 900, 650);
+
         }
 
         TabPane tabs = buildTabs(record);
         root.setCenter(tabs);
 
-        return new Scene(root);
+        return new Scene(root, 900, 650);
+
     }
 
     private TabPane buildTabs(PatientRecord record) {

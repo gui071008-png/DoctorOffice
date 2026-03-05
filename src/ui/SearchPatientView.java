@@ -36,7 +36,8 @@ public class SearchPatientView {
 
         loadAll();
 
-        return new Scene(root);
+        return new Scene(root, 900, 650);
+
     }
 
     private void addBackButton(HBox header) {
