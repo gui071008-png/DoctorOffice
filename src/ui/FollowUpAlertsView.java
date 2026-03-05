@@ -38,7 +38,7 @@ public class FollowUpAlertsView {
         root.setCenter(buildContent());
         loadAlerts();
 
-        return new Scene(root, 900, 650);
+        return new Scene(root);
     }
 
     private VBox buildContent() {

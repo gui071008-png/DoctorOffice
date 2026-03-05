@@ -28,7 +28,7 @@ public class CreatePatientView {
         scroll.setStyle("-fx-background-color: " + Theme.LIGHT_BLUE + ";");
         root.setCenter(scroll);
 
-        return new Scene(root, 900, 650);
+        return new Scene(root);
     }
 
     private VBox buildForm() {

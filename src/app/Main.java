@@ -4,7 +4,10 @@ import data.DatabaseManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ui.SceneManager;
-// teste teste
+
+// install SQLLite
+//
+
 public class Main extends Application {
 
     @Override
